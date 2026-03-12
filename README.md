@@ -1,4 +1,4 @@
-<img width="1405" height="343" alt="image" src="https://github.com/user-attachments/assets/81e070b2-6b57-4cdb-be02-f1b0c52a47d2" /># Zepto Inventory NLP Assistant
+# Zepto Inventory NLP Assistant
 
 A natural language query interface for Zepto's product inventory. Users ask plain English questions about products, prices, discounts, and stock levels — the system interprets the query against a structured dataset and returns a human-readable answer.
 
