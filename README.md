@@ -53,6 +53,10 @@ flowchart LR
 
 <img width="1405" height="343" alt="image" src="https://github.com/user-attachments/assets/c3ba7b7b-9109-4d31-8fcc-64dec72fee99" />
 
+### Chatbot Interface
+
+<img width="858" height="914" alt="Screenshot 2026-03-12 181725" src="https://github.com/user-attachments/assets/d114fce4-0493-45ca-ba24-3d33f193b18b" />
+
 ```mermaid
 flowchart LR
     W(["🌐 Webhook"]) -->|"Trigger"| GD[("📂 Google Drive")]
