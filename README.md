@@ -40,37 +40,27 @@ No database or search index is involved — the LLM acts as a dynamic query inte
 
 ```mermaid
 flowchart LR
-    A[User] -->|types query| B[Chatbot UI]
-    B -->|POST /zepto-query| C[n8n Webhook]
-    C --> D[Google Drive]
-    D -->|zepto_v1.xlsx| E[Extract from File]
-    E -->|JSON rows| F[Build Prompt]
-    F -->|prompt + data| G[Gemini 2.5 Flash]
-    G -->|generated text| H[Extract Answer]
-    H --> I[Respond to Webhook]
-    I -->|JSON response| B
+    User(["🧑 User"]) -- "Types Request" --> UI(["💻 Chatbot UI"])
+    UI -- "POST" --> N8N(["⚙️ n8n Workflow"])
+    N8N -- "Fetch Dataset" --> Drive[("📂 Google Drive")]
+    Drive -- "zepto_v1.xlsx" --> N8N
+    N8N -- "Prompt + Context" --> Gemini{{"🧠 Gemini 2.5 Flash"}}
+    Gemini -- "Generated Text" --> N8N
+    N8N -- "Response JSON" --> UI
 ```
 
 ### n8n Workflow
 
-```mermaid
-flowchart TD
-    subgraph n8n Workflow
-        W[Webhook\nPOST /zepto-query] --> GD[Google Drive\nDownload xlsx]
-        GD --> EF[Extract from File\nxlsx to JSON]
-        EF --> BP[Build Prompt\nCombine data + query]
-        BP --> HR[HTTP Request\nGemini API call]
-        HR --> EA[Extract Answer\nParse response text]
-        EA --> RW[Respond to Webhook\nReturn answer]
-    end
+![n8n Workflow Preview](workflow.png)
 
-    style W fill:#1a1a2e,stroke:#0ea5e9,color:#e8f0f8
-    style GD fill:#1a1a2e,stroke:#0ea5e9,color:#e8f0f8
-    style EF fill:#1a1a2e,stroke:#0ea5e9,color:#e8f0f8
-    style BP fill:#1a1a2e,stroke:#00d4aa,color:#e8f0f8
-    style HR fill:#1a1a2e,stroke:#00d4aa,color:#e8f0f8
-    style EA fill:#1a1a2e,stroke:#00d4aa,color:#e8f0f8
-    style RW fill:#1a1a2e,stroke:#0ea5e9,color:#e8f0f8
+```mermaid
+flowchart LR
+    W(["🌐 Webhook"]) -->|"Trigger"| GD[("📂 Google Drive")]
+    GD -->|"Download .xlsx"| EF(["📊 Extract from File"])
+    EF -->|"Convert to JSON"| BP[["📝 Build Prompt"]]
+    BP -->|"Context + Query"| HR{{"🧠 Gemini API request"}}
+    HR -->|"Raw Response"| EA[["🔍 Extract Answer"]]
+    EA -->|"Clean Text"| RW(["📤 Webhook Response"])
 ```
 
 ---
